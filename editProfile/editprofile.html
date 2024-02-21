@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+                form{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+        div#users{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="editform">
+        <input type="text" id="name" >
+        <input type="email" id="email">
+        <textarea id="about"></textarea>
+        <input type="file" id="profileImg">
+        <button type="submit">Update</button>
+    </form>
+
+    <script>
+            const form= document.querySelector("form")
+            
+            let urlParams = new URLSearchParams(window.location.search)
+            let currentId = urlParams.get('id')
+            let users = JSON.parse(localStorage.getItem('Users'))
+            let currentUser = users.find((element) => element.id == currentId)
+            console.log("user", users)
+            console.log("User: ", currentUser)
+            
+                const img = document.getElementById("profileImg")
+                const nameField = document.getElementById("name")
+                const aboutField = document.getElementById("about")
+                const emailField = document.getElementById("email")
+                renderUser(currentUser)
+            function renderUser(user) {
+                img.src =user.profileImg
+                nameField.value = user.name
+                aboutField.value = user.about
+                emailField.value = user.email
+            }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        updateUser(currentUser)
+})
+
+function updateUser(user){
+            user.name=nameField.value
+            user.email= emailField.value 
+            user.about= aboutField.value
+            user.profileImg=img.files[0].name
+            localStorage.setItem("Users", JSON.stringify(users))
+            alert("user Updated!")
+            window.location.href="http://127.0.0.1:5500/index.html"
+}
+    </script>
+</body>
+
+</html>

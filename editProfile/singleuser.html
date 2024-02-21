@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        div.container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="./card.jpg" alt="">
+        <div class="name">ISHIMWE Christian</div>
+        <div class="about">This ABout Me</div>
+        <div class="email">This is Email</div>
+        <a href="#">Edit Me</a>
+    </div>
+    <script>
+        let urlParams= new URLSearchParams(window.location.search)
+        let currentUrl= urlParams.get('id')
+        let user= JSON.parse(localStorage.getItem('Users'))
+        let currentUser= user.find((element) => element.id==currentUrl)
+        let edit= document.querySelector("a")
+        console.log("user", user)
+        console.log("User: ",currentUser)
+        console.log("Id: ",currentUrl)
+        renderUser(currentUser)
+        function renderUser(user){
+            const img= document.querySelector("img")
+            const nameField=document.querySelector(".name")
+            const aboutField=document.querySelector(".about")
+            const emailField=document.querySelector(".email")
+            img.src=user.profileImg
+            nameField.textContent=user.name
+            aboutField.textContent=user.about
+            emailField.textContent=user.email
+            edit.href=`editprofile.html?id=${user.id}`
+        }
+    </script>
+</body>
+</html>
